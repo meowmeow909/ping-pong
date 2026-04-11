@@ -1,5 +1,5 @@
 from pygame import *
-
+font.init()
 class GameSprite(sprite.Sprite):
     def __init__(self, picture, x, y, width, height, speed):
         super().__init__()
@@ -47,6 +47,10 @@ winnerLeft = font1.render('Left player win!', True, (255, 255, 255))
 win = display.set_mode((winHeight, winWidth))
 win.fill(backColor)
 
+racketLeft = Player(racket, 50, winHeight/2, 80, 120, 4)
+racketRight = Player(racket, winWidth-50, winHeight/2, 80, 120, 4)
+ball = Player(ball, 200, 200, winWidth/2, winHeight/2, 4)
+
 while game:
     for i in event.get():
         if i.type == QUIT:
@@ -56,14 +60,16 @@ while game:
     racketLeft.update_left()
     racketRight.update_right()
 
-
-
-
-
-
     racketLeft.draw_sprite()
     racketRight.draw_sprite()
     ball.draw_sprite()
+    if ball.rect.x <= 0:
+        win.blit(winnerLeft, (200, 200))
+        game = False
+    elif ball.rect.x >= winHeight:
+        win.blit(winnerRight, (200, 200))
+        game = False
+
 
 
 
