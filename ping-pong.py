@@ -13,7 +13,6 @@ class GameSprite(sprite.Sprite):
     def draw_sprite(self):
         win.blit(self.picture, (self.rect.x, self.rect.y))
 
-
 class Player(GameSprite):
     def update_right(self):
         keys = key.get_pressed()
@@ -29,7 +28,6 @@ class Player(GameSprite):
         if keys[K_s] and self.rect.y < winWidth - 80:
             self.rect.y += self.speed
 
-
 backColor = (102, 255, 178)
 winHeight = 700
 winWidth = 500
@@ -39,6 +37,8 @@ FPS = 60
 clock = time.Clock()
 racket = 'racket.png'
 ball = 'ball.png'
+speedX = 3
+speedY = 3
 
 font1 = font.SysFont('Arial', 70)
 winnerRight = font1.render('Right player win!', True, (255, 255, 255))
@@ -63,16 +63,22 @@ while game:
     racketLeft.draw_sprite()
     racketRight.draw_sprite()
     ball.draw_sprite()
+
+    ball.rect.x += speedX
+    ball.rect.y += speedY
+
+    if sprite.collide_rect(ball, racketLeft, False) or sprite.collide_rect(ball, racketRight, False):
+        speedX *= -1
+       
+    if ball.rect.y < 0 or ball.rect.y > winHeight:
+        speedY *= -1
+
     if ball.rect.x <= 0:
         win.blit(winnerLeft, (200, 200))
         game = False
     elif ball.rect.x >= winHeight:
         win.blit(winnerRight, (200, 200))
         game = False
-
-
-
-
 
     display.update()
     clock.tick(FPS)
