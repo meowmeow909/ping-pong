@@ -63,7 +63,6 @@ while game:
     racketLeft.update_left()
     racketRight.update_right()
     
-
     ball.rect.x += speedX
     ball.rect.y += speedY
     
@@ -79,9 +78,6 @@ while game:
     elif ball.rect.x >= winHeight:
         win.blit(winnerRight, (200, 200))
         game = False
-
-    display.update()
-    clock.tick(FPS)
 
     display.update()
     clock.tick(FPS)
